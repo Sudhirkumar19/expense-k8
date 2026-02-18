@@ -26,3 +26,23 @@ spec:
         image: mysql:8.0 # change to your docker hub image and version
         ports:
         - containerPort: 3306
+
+---
+
+# service in manifest.yaml is written in the same namespace as deployment, so it will be created in the same namespace as deployment . service is used to expose the deployment to other pods in the same namespace or to external clients.
+
+kind: Service
+apiVersion: apps/v1
+metadata:
+  name: mysql
+  namespace: expense
+spec:
+  selector:
+    app: mysql
+    tier: db
+    project: expense
+  ports:
+  - name: mysql port
+    protocol: TCP
+    port: 3306 # service port
+    targetport: 3306 # container port defined in deployment
